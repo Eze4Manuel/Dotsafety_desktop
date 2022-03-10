@@ -1,12 +1,15 @@
+import 'package:dotsafety_desktop/app/controllers/login_controller.dart';
 import 'package:dotsafety_desktop/app/ui/pages/admin.dart';
 import 'package:dotsafety_desktop/app/ui/pages/home.dart';
+import 'package:dotsafety_desktop/app/ui/pages/login.dart';
 import 'package:dotsafety_desktop/app/ui/pages/officer.dart';
 import 'package:dotsafety_desktop/app/ui/pages/update.dart';
 import 'package:dotsafety_desktop/app/ui/theme/app_colors.dart';
 import 'package:dotsafety_desktop/app/utils/device_utils.dart';
+import 'package:dotsafety_desktop/app/utils/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:popup_window/popup_window.dart';
-
+import 'package:get/get.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -16,296 +19,355 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  final LoginController loginController = Get.put(LoginController());
 
   String isSelected = 'Dashboard';
 
   double windowHeight = 600;
 
+  String firstName = '';
+  String lastName = '';
 
+  void getSharedPrefs() async {
+    var fN = await SharedPrefs.readSingleString('first_name');
+    var lN = await SharedPrefs.readSingleString('last_name');
+
+    setState(() {
+      firstName = fN;
+      lastName = lN;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    getSharedPrefs();
   }
 
   @override
   Widget build(BuildContext context) {
 
+   return Scaffold(
+      body: Column(
+        children: [
+          Container(
+            height: DeviceUtils.getScaledHeight(context, scale: 0.07),
+            padding: EdgeInsets.symmetric(
+                vertical:
+                    DeviceUtils.getScaledHeight(context, scale: 0.0129)),
+            decoration: const BoxDecoration(
+              color: AppColors.whiteColor,
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: AppColors.color13,
+                    blurRadius: 21.0,
+                    offset: Offset(0.0, 1))
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    SizedBox(
+                      width:
+                          DeviceUtils.getScaledWidth(context, scale: 0.06),
+                    ),
+                    Image.asset(
+                      'assets/images/logo.png',
+                      width: 40,
+                    ),
+                    SizedBox(
+                      width:
+                          DeviceUtils.getScaledWidth(context, scale: 0.01),
+                    ),
+                    const Text(
+                      'DotSafety',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                          fontFamily: 'Montserrat Regular',
+                          color: AppColors.appPrimaryColor),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    ClipRRect(
+                      child:
+                          Image.asset('assets/images/logo.png', width: 30),
+                    ),
+                    SizedBox(
+                      width:
+                          DeviceUtils.getScaledWidth(context, scale: 0.004),
+                    ),
+                    Text(
+                      '$firstName $lastName',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 13,
+                          fontFamily: 'Montserrat Regular',
+                          color: AppColors.color10),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      width:
+                          DeviceUtils.getScaledWidth(context, scale: 0.02),
+                    ),
+                    PopupWindowButton(
+                      offset: Offset(
+                          MediaQuery.of(context).size.width - 290,
+                          windowHeight),
+                      buttonBuilder: (BuildContext context) {
+                        return const Icon(Icons.notifications_none_outlined);
+                        // return PopupWindowBtn();
+                      },
+                      windowBuilder: (BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: SizeTransition(
+                              sizeFactor: animation,
+                              child: const NotificationWindow()),
+                        );
+                      },
+                      onWindowShow: () {
 
-    return Scaffold(
+                      },
+                      onWindowDismiss: () {
 
-      body: Container(
-        child: Column(
-          children: [
-            Container(
-              height: DeviceUtils.getScaledHeight(context, scale: 0.07),
-              padding: EdgeInsets.symmetric(
-                  vertical: DeviceUtils.getScaledHeight(context, scale: 0.0129)
-              ),
-              decoration: const BoxDecoration(
-                color: AppColors.whiteColor,
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                      color: AppColors.color13,
-                      blurRadius: 21.0,
-                      offset: Offset(0.0, 1)
-                  )
-                ],
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      },
+                    ),
+                    SizedBox(
+                      width:
+                          DeviceUtils.getScaledWidth(context, scale: 0.12),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: DeviceUtils.getScaledHeight(context, scale: 0.9),
+            child: SingleChildScrollView(
+              child: Column(
                 children: [
-                  Container(
-                    child: Row(
-                      children: [
-                        SizedBox(width: DeviceUtils.getScaledWidth(context, scale: 0.06),),
-                        Image.asset('assets/images/logo.png',
-                          width: 40,),
-                        SizedBox(width: DeviceUtils.getScaledWidth(context, scale: 0.01),),
-                        const Text(
-                          'DotSafety',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                              fontFamily: 'Montserrat Regular',
-                              color: AppColors.appPrimaryColor),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: Row(
-                      children: [
-
-                        ClipRRect(
-                          child: Image.asset('assets/images/logo.png',
-                              width: 30),
-                        ),
-                        SizedBox(width: DeviceUtils.getScaledWidth(context, scale: 0.004),),
-                        const Text(
-                          'Maureen Gift',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 13,
-                              fontFamily: 'Montserrat Regular',
-                              color: AppColors.color10),
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(width: DeviceUtils.getScaledWidth(context, scale: 0.02),),
-                        PopupWindowButton(
-                          offset: Offset(MediaQuery.of(context).size.width - 290, windowHeight),
-                          buttonBuilder: (BuildContext context) {
-                            return Icon(Icons.notifications_none_outlined);
-                            // return PopupWindowBtn();
-                          },
-                          windowBuilder: (BuildContext context, Animation<double> animation,
-                              Animation<double> secondaryAnimation) {
-                            return FadeTransition(
-                              opacity: animation,
-                              child: SizeTransition(
-                                  sizeFactor: animation,
-                                  child: NotificationWindow()
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width:
+                            DeviceUtils.getScaledWidth(context, scale: 0.2),
+                        height:
+                            DeviceUtils.getScaledHeight(context, scale: 1),
+                        color: AppColors.quartsColor,
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: DeviceUtils.getScaledHeight(context,
+                                  scale: 0.09),
+                            ),
+                            Container(
+                              color: isSelected == 'Home'
+                                  ? AppColors.whiteColor
+                                  : Colors.transparent,
+                              child: ListTile(
+                                onTap: () {
+                                  setState(() {
+                                    isSelected = 'Home';
+                                  });
+                                },
+                                hoverColor: AppColors.whiteColor,
+                                focusColor: AppColors.whiteColor,
+                                autofocus: true,
+                                selectedColor: AppColors.whiteColor,
+                                leading: const Icon(
+                                  Icons.home,
+                                  size: 20,
+                                  color: AppColors.appPrimaryColor,
+                                ),
+                                title: const Text(
+                                  'HOME',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 12,
+                                      fontFamily: 'Montserrat Bold',
+                                      color: AppColors.color10),
+                                ),
                               ),
-                            );
-                          },
-                          onWindowShow: () {
-                            print('PopupWindowButton window show');
-                          },
-                          onWindowDismiss: () {
-                            print('PopupWindowButton window dismiss');
-                          },
+                            ),
+                            SizedBox(
+                              height: DeviceUtils.getScaledHeight(context,
+                                  scale: 0.02),
+                            ),
+                            Container(
+                              color: isSelected == 'Admin'
+                                  ? AppColors.whiteColor
+                                  : Colors.transparent,
+                              child: ListTile(
+                                onTap: () {
+                                  setState(() {
+                                    isSelected = 'Admin';
+                                  });
+                                },
+                                hoverColor: AppColors.whiteColor,
+                                focusColor: AppColors.whiteColor,
+                                autofocus: true,
+                                selectedColor: AppColors.whiteColor,
+                                leading: const Icon(
+                                  Icons.dashboard_outlined,
+                                  size: 20,
+                                  color: AppColors.appPrimaryColor,
+                                ),
+                                title: const Text(
+                                  'ADMIN',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 12,
+                                      fontFamily: 'Montserrat Bold',
+                                      color: AppColors.color10),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: DeviceUtils.getScaledHeight(context,
+                                  scale: 0.02),
+                            ),
+                            Container(
+                              color: isSelected == 'Officers'
+                                  ? AppColors.whiteColor
+                                  : Colors.transparent,
+                              child: ListTile(
+                                onTap: () {
+                                  setState(() {
+                                    isSelected = 'Officers';
+                                  });
+                                },
+                                hoverColor: AppColors.whiteColor,
+                                focusColor: AppColors.whiteColor,
+                                autofocus: true,
+                                selectedColor: AppColors.whiteColor,
+                                leading: const Icon(
+                                  Icons.face,
+                                  size: 20,
+                                  color: AppColors.appPrimaryColor,
+                                ),
+                                title: const Text(
+                                  'OFFICERS',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 12,
+                                      fontFamily: 'Montserrat Bold',
+                                      color: AppColors.color10),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: DeviceUtils.getScaledHeight(context,
+                                  scale: 0.02),
+                            ),
+                            Container(
+                              color: isSelected == 'Update'
+                                  ? AppColors.whiteColor
+                                  : Colors.transparent,
+                              child: ListTile(
+                                onTap: () {
+                                  setState(() {
+                                    isSelected = 'Update';
+                                  });
+                                },
+                                hoverColor: AppColors.whiteColor,
+                                focusColor: AppColors.whiteColor,
+                                autofocus: true,
+                                selectedColor: AppColors.whiteColor,
+                                leading: const Icon(
+                                  Icons.refresh,
+                                  size: 20,
+                                  color: AppColors.appPrimaryColor,
+                                ),
+                                title: const Text(
+                                  'UPDATE',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 12,
+                                      fontFamily: 'Montserrat Bold',
+                                      color: AppColors.color10),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: DeviceUtils.getScaledHeight(context,
+                                  scale: 0.02),
+                            ),
+                            // Container(
+                            //   color: isSelected == 'Analytics' ? AppColors.whiteColor : Colors.transparent,
+                            //   child: ListTile(
+                            //     onTap: (){
+                            //       setState(() {
+                            //         isSelected = 'Analytics';
+                            //       });
+                            //     },
+                            //     hoverColor: AppColors.whiteColor,
+                            //     focusColor: AppColors.whiteColor,
+                            //     autofocus: true,
+                            //     selectedColor: AppColors.whiteColor,
+                            //     leading: Icon(Icons.analytics, size: 20, color: AppColors.appPrimaryColor,),
+                            //     title: const Text(
+                            //       'ANALYTICS',
+                            //       style: TextStyle(
+                            //           fontWeight: FontWeight.w400,
+                            //           fontSize: 12,
+                            //           fontFamily: 'Montserrat Bold',
+                            //           color: AppColors.color10),
+                            //     ),
+                            //   ),
+                            // ),
+
+                            SizedBox(
+                              height: DeviceUtils.getScaledHeight(context,
+                                  scale: 0.08),
+                            ),
+                            ListTile(
+                              onTap: () async {
+                                if (await loginController.logout()) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const Login()));
+                                }
+                              },
+                              selectedColor: AppColors.whiteColor,
+                              leading: const Text(''),
+                              title: const Text(
+                                'SIGN OUT',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                    fontFamily: 'Montserrat BOLD',
+                                    color: AppColors.color5),
+                              ),
+                            )
+                          ],
                         ),
-                        SizedBox(width: DeviceUtils.getScaledWidth(context, scale: 0.12),),
-                      ],
-                    ),
+                      ),
+                      Flexible(
+                        flex: 1,
+                        child: Container(child: _displayer(isSelected)),
+                      )
+                    ],
                   ),
                 ],
               ),
             ),
-
-            Container(
-              height: DeviceUtils.getScaledHeight(context, scale: 0.9),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: DeviceUtils.getScaledWidth(context, scale: 0.2),
-                          height: DeviceUtils.getScaledHeight(context, scale: 1),
-                          color: AppColors.quartsColor,
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: DeviceUtils.getScaledHeight(context, scale: 0.09),
-                              ),
-                              Container(
-                                color: isSelected == 'Home' ? AppColors.whiteColor : Colors.transparent,
-                                child:  ListTile(
-                                  onTap: (){
-                                    setState(() {
-                                      isSelected = 'Home';
-                                    });
-                                  },
-                                  hoverColor: AppColors.whiteColor,
-                                  focusColor: AppColors.whiteColor,
-                                  autofocus: true,
-                                  selectedColor: AppColors.whiteColor,
-                                  leading: Icon(Icons.home, size: 20, color: AppColors.appPrimaryColor,),
-                                  title: const Text(
-                                    'HOME',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 12,
-                                        fontFamily: 'Montserrat Bold',
-                                        color: AppColors.color10),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: DeviceUtils.getScaledHeight(context, scale: 0.02),
-                              ),
-                              Container(
-                                color: isSelected == 'Admin' ? AppColors.whiteColor : Colors.transparent,
-                                child: ListTile(
-                                  onTap: (){
-                                    setState(() {
-                                      isSelected = 'Admin';
-                                    });
-                                  },
-                                  hoverColor: AppColors.whiteColor,
-                                  focusColor: AppColors.whiteColor,
-                                  autofocus: true,
-                                  selectedColor: AppColors.whiteColor,
-                                  leading: Icon(Icons.dashboard_outlined, size: 20, color: AppColors.appPrimaryColor,),
-                                  title: const Text(
-                                    'ADMIN',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 12,
-                                        fontFamily: 'Montserrat Bold',
-                                        color: AppColors.color10),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: DeviceUtils.getScaledHeight(context, scale: 0.02),
-                              ),
-                              Container(
-                                color: isSelected == 'Officers' ? AppColors.whiteColor : Colors.transparent,
-                                child: ListTile(
-                                  onTap: (){
-                                    setState(() {
-                                      isSelected = 'Officers';
-                                    });
-                                  },
-                                  hoverColor: AppColors.whiteColor,
-                                  focusColor: AppColors.whiteColor,
-                                  autofocus: true,
-                                  selectedColor: AppColors.whiteColor,
-                                  leading: Icon(Icons.face, size: 20, color: AppColors.appPrimaryColor,),
-                                  title: const Text(
-                                    'OFFICERS',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 12,
-                                        fontFamily: 'Montserrat Bold',
-                                        color: AppColors.color10),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: DeviceUtils.getScaledHeight(context, scale: 0.02),
-                              ),
-                              Container(
-                                color: isSelected == 'Update' ? AppColors.whiteColor : Colors.transparent,
-                                child: ListTile(
-                                  onTap: (){
-                                    setState(() {
-                                      isSelected = 'Update';
-                                    });
-                                  },
-                                  hoverColor: AppColors.whiteColor,
-                                  focusColor: AppColors.whiteColor,
-                                  autofocus: true,
-                                  selectedColor: AppColors.whiteColor,
-                                  leading: const Icon(Icons.refresh, size: 20, color: AppColors.appPrimaryColor,),
-                                  title: const Text(
-                                    'UPDATE',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 12,
-                                        fontFamily: 'Montserrat Bold',
-                                        color: AppColors.color10),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: DeviceUtils.getScaledHeight(context, scale: 0.02),
-                              ),
-                              Container(
-                                color: isSelected == 'Analytics' ? AppColors.whiteColor : Colors.transparent,
-                                child: ListTile(
-                                  onTap: (){
-                                    setState(() {
-                                      isSelected = 'Analytics';
-                                    });
-                                  },
-                                  hoverColor: AppColors.whiteColor,
-                                  focusColor: AppColors.whiteColor,
-                                  autofocus: true,
-                                  selectedColor: AppColors.whiteColor,
-                                  leading: Icon(Icons.analytics, size: 20, color: AppColors.appPrimaryColor,),
-                                  title: const Text(
-                                    'ANALYTICS',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 12,
-                                        fontFamily: 'Montserrat Bold',
-                                        color: AppColors.color10),
-                                  ),
-                                ),
-                              ),
-
-                              SizedBox(
-                                height: DeviceUtils.getScaledHeight(context, scale: 0.08),
-                              ),
-                              const ListTile(
-                                selectedColor: AppColors.whiteColor,
-                                leading: Text(''),
-                                title: Text(
-                                  'SIGN OUT',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                      fontFamily: 'Montserrat BOLD',
-                                      color: AppColors.color5),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Flexible(
-                          flex: 1,
-                          child: Container(
-                              child:  Displayer(isSelected)
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }
 }
-
 
 class NotificationWindow extends StatefulWidget {
   const NotificationWindow({Key? key}) : super(key: key);
@@ -316,15 +378,39 @@ class NotificationWindow extends StatefulWidget {
 
 class _NotificationWindowState extends State<NotificationWindow> {
   List litems = [
-    {"icon": "assets/images/noti1.png", "title": "margo Corn has invited you to the project Unittled", "time": "2 mins"},
-    {"icon": 'assets/images/noti4.png', "title": "margo Corn has invited you to the project Unittled", "time": "2 hrs"},
-    ];
+    {
+      "icon": "assets/images/noti1.png",
+      "title": "margo Corn has invited you to the project Unittled",
+      "time": "2 mins"
+    },
+    {
+      "icon": 'assets/images/noti4.png',
+      "title": "margo Corn has invited you to the project Unittled",
+      "time": "2 hrs"
+    },
+  ];
 
   List yesterDaylitems = [
-    {"icon": "assets/images/noti1.png", "title": "margo Corn has invited you to the project Unittled", "time": "23:22pm"},
-    {"icon": 'assets/images/noti2.png', "title": "margo Corn has invited you to the project Unittled", "time": "14:30pm"},
-    {"icon": 'assets/images/noti3.png', "title": "margo Corn has invited you to the project Unittled", "time": "1:24am"},
-    {"icon": 'assets/images/noti4.png', "title": "margo Corn has invited you to the project Unittled", "time": "6:30pm"}
+    {
+      "icon": "assets/images/noti1.png",
+      "title": "margo Corn has invited you to the project Unittled",
+      "time": "23:22pm"
+    },
+    {
+      "icon": 'assets/images/noti2.png',
+      "title": "margo Corn has invited you to the project Unittled",
+      "time": "14:30pm"
+    },
+    {
+      "icon": 'assets/images/noti3.png',
+      "title": "margo Corn has invited you to the project Unittled",
+      "time": "1:24am"
+    },
+    {
+      "icon": 'assets/images/noti4.png',
+      "title": "margo Corn has invited you to the project Unittled",
+      "time": "6:30pm"
+    }
   ];
 
   @override
@@ -337,7 +423,7 @@ class _NotificationWindowState extends State<NotificationWindow> {
           borderRadius: BorderRadius.all(Radius.circular(4)),
           boxShadow: [
             BoxShadow(
-              color: AppColors.color13  ,
+              color: AppColors.color13,
               spreadRadius: 1,
               blurRadius: 20,
               offset: Offset(-3, 3), // changes position of shadow
@@ -347,18 +433,16 @@ class _NotificationWindowState extends State<NotificationWindow> {
         width: DeviceUtils.getScaledWidth(context, scale: 0.35),
         height: DeviceUtils.getScaledHeight(context, scale: 0.6),
         margin: EdgeInsets.symmetric(
-            vertical: DeviceUtils.getScaledHeight(context, scale: 0.02)
-        ),
+            vertical: DeviceUtils.getScaledHeight(context, scale: 0.02)),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Padding(
-                padding: EdgeInsets.fromLTRB(
-                   20, 20, 20, 5
-                ),
-                child: Text('Notifications',
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 5),
+                child: Text(
+                  'Notifications',
                   style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 13,
@@ -375,14 +459,16 @@ class _NotificationWindowState extends State<NotificationWindow> {
                 thickness: 2,
               ),
               Padding(
-                padding: EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(15.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: DeviceUtils.getScaledHeight(context, scale: 0.001),
+                      height:
+                          DeviceUtils.getScaledHeight(context, scale: 0.001),
                     ),
-                    const Text('Today',
+                    const Text(
+                      'Today',
                       style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 12,
@@ -400,36 +486,40 @@ class _NotificationWindowState extends State<NotificationWindow> {
                           return ListTile(
                             leading: ClipRRect(
                               borderRadius: BorderRadius.circular(100),
-                              child: Image.asset(litems[index]['icon'],
-                              width: 30,
-                              height: 30,),
+                              child: Image.asset(
+                                litems[index]['icon'],
+                                width: 30,
+                                height: 30,
+                              ),
                             ),
-                            title: Text(litems[index]['title'],
+                            title: Text(
+                              litems[index]['title'],
                               style: const TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 12,
                                   fontFamily: 'Montserrat Regular',
-                                  color: AppColors.color10),),
-                            trailing: Text(litems[index]['time'],
+                                  color: AppColors.color10),
+                            ),
+                            trailing: Text(
+                              litems[index]['time'],
                               style: const TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 12,
                                   fontFamily: 'Montserrat Regular',
-                                  color: AppColors.color10),),
+                                  color: AppColors.color10),
+                            ),
                           );
-                        }
-                    )
+                        })
                   ],
                 ),
               ),
-
               Padding(
-                padding: EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(15.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
-                    const Text('Yesterday',
+                    const Text(
+                      'Yesterday',
                       style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 12,
@@ -447,25 +537,30 @@ class _NotificationWindowState extends State<NotificationWindow> {
                           return ListTile(
                             leading: ClipRRect(
                               borderRadius: BorderRadius.circular(100),
-                              child: Image.asset(yesterDaylitems[index]['icon'],
+                              child: Image.asset(
+                                yesterDaylitems[index]['icon'],
                                 width: 30,
-                                height: 30,),
+                                height: 30,
+                              ),
                             ),
-                            title: Text(yesterDaylitems[index]['title'],
+                            title: Text(
+                              yesterDaylitems[index]['title'],
                               style: const TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 12,
                                   fontFamily: 'Montserrat Regular',
-                                  color: AppColors.color10),),
-                            trailing: Text(yesterDaylitems[index]['time'],
+                                  color: AppColors.color10),
+                            ),
+                            trailing: Text(
+                              yesterDaylitems[index]['time'],
                               style: const TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 12,
                                   fontFamily: 'Montserrat Regular',
-                                  color: AppColors.color10),),
+                                  color: AppColors.color10),
+                            ),
                           );
-                        }
-                    )
+                        })
                   ],
                 ),
               ),
@@ -477,21 +572,16 @@ class _NotificationWindowState extends State<NotificationWindow> {
   }
 }
 
-
-
-Widget Displayer(isSelected){
-  print(isSelected);
-  if(isSelected == 'Home'){
+Widget _displayer(isSelected) {
+  if (isSelected == 'Home') {
     return const Home();
-  }else if(isSelected == 'Admin'){
+  } else if (isSelected == 'Admin') {
     return const Admin();
-  }else if(isSelected == 'Officers'){
+  } else if (isSelected == 'Officers') {
     return const Officer();
-  }
-  else if(isSelected == 'Update'){
+  } else if (isSelected == 'Update') {
     return const Update();
-  }
-  else{
+  } else {
     return const Home();
   }
 }

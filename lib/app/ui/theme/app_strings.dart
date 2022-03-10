@@ -2,6 +2,7 @@ class Strings {
   Strings._();
 
 
+  // static const String domain = "http://localhost:5000/";
   // static const String domain = "http://10.0.2.2:5000/";
   static const String domain = "https://tranquil-hamlet-74718.herokuapp.com/";
   static const String appName = "Dot Safety";

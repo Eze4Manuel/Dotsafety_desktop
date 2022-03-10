@@ -1,7 +1,11 @@
+import 'package:dotsafety_desktop/app/controllers/admin_controller.dart';
+import 'package:dotsafety_desktop/app/ui/pages/admin/create_admin.dart';
+import 'package:dotsafety_desktop/app/ui/pages/admin/edit_admin.dart';
 import 'package:dotsafety_desktop/app/ui/theme/app_colors.dart';
 import 'package:dotsafety_desktop/app/utils/device_utils.dart';
 import 'package:dotsafety_desktop/app/utils/widget_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Admin extends StatefulWidget {
   const Admin({Key? key}) : super(key: key);
@@ -11,128 +15,27 @@ class Admin extends StatefulWidget {
 }
 
 class _AdminState extends State<Admin> {
-  List tableData = [
-    {
-      's/n': 1,
-      'name': "Williams Azuke",
-      'rank': "Superintendent",
-      'unit': ' Traffic',
-      'location': 'williamsazuke@gmail.com',
-      'action': '...'
-    },
-    {
-      's/n': 2,
-      'name': "Charles Okafor",
-      'rank': "Deputy Inspector-General",
-      'unit': ' Aviation',
-      'location': 'charlesokafor@gmail.com',
-      'action': '...'
-    },
-    {
-      's/n': 3,
-      'name': "John Paul",
-      'rank': "Assistant Commissioner",
-      'unit': ' Cybercrime',
-      'location': 'johnpaul@gmail.com',
-      'action': '...'
-    },
-    {
-      's/n': 4,
-      'name': "Williams Azuke",
-      'rank': "Superintendent",
-      'unit': ' Traffic',
-      'location': 'williamsazuke@gmail.com',
-      'action': '...'
-    },
-    {
-      's/n': 5,
-      'name': "Charles Okafor",
-      'rank': "Superintendent",
-      'unit': ' Traffic',
-      'location': 'charlesokafor@gmail.com',
-      'action': '...'
-    },
-    {
-      's/n': 6,
-      'name': "Williams Azuke",
-      'rank': "Superintendent",
-      'unit': ' Traffic',
-      'location': 'williamsazuke@gmail.com',
-      'action': '...'
-    },
-    {
-      's/n': 7,
-      'name': "Charles Okafor",
-      'rank': "Deputy Inspector-General",
-      'unit': ' Aviation',
-      'location': 'charlesokafor@gmail.com',
-      'action': '...'
-    },
-    {
-      's/n': 8,
-      'name': "John Paul",
-      'rank': "Assistant Commissioner",
-      'unit': ' Cybercrime',
-      'location': 'johnpaul@gmail.com',
-      'action': '...'
-    },
-    {
-      's/n': 9,
-      'name': "Williams Azuke",
-      'rank': "Superintendent",
-      'unit': ' Traffic',
-      'location': 'williamsazuke@gmail.com',
-      'action': '...'
-    },
-    {
-      's/n': 10,
-      'name': "Charles Okafor",
-      'rank': "Superintendent",
-      'unit': ' Traffic',
-      'location': 'charlesokafor@gmail.com',
-      'action': '...'
-    },
-    {
-      's/n': 11,
-      'name': "Williams Azuke",
-      'rank': "Superintendent",
-      'unit': ' Traffic',
-      'location': 'williamsazuke@gmail.com',
-      'action': '...'
-    },
-    {
-      's/n': 12,
-      'name': "Charles Okafor",
-      'rank': "Deputy Inspector-General",
-      'unit': ' Aviation',
-      'location': 'charlesokafor@gmail.com',
-      'action': '...'
-    },
-    {
-      's/n': 13,
-      'name': "John Paul",
-      'rank': "Assistant Commissioner",
-      'unit': ' Cybercrime',
-      'location': 'johnpaul@gmail.com',
-      'action': '...'
-    },
-    {
-      's/n': 14,
-      'name': "Williams Azuke",
-      'rank': "Superintendent",
-      'unit': ' Traffic',
-      'location': 'williamsazuke@gmail.com',
-      'action': '...'
-    },
-    {
-      's/n': 15,
-      'name': "Charles Okafor",
-      'rank': "Superintendent",
-      'unit': ' Traffic',
-      'location': 'charlesokafor@gmail.com',
-      'action': '...'
-    },
-  ];
+  final _formKey = GlobalKey<FormState>();
+  final AdminController adminController = Get.put(AdminController());
+
+  List adminList = [];
+  bool fetched = false;
+
+  Future<void> getAdmins() async {
+   await adminController.getAdmins();
+   setState(() {
+     adminList = adminController.adminList;
+     fetched = true;
+   });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    getAdmins();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +57,7 @@ class _AdminState extends State<Admin> {
                   flex: 2,
                   child: Container(
                     color: AppColors.quartsColor,
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                     child: const Text(
                       'Upload File',
                       style: TextStyle(
@@ -178,7 +81,7 @@ class _AdminState extends State<Admin> {
                         color: Colors.grey.withOpacity(0.2),
                         spreadRadius: 0,
                         blurRadius: 35,
-                        offset: Offset(0, 1), // changes position of shadow
+                        offset: const Offset(0, 1), // changes position of shadow
                       ),
                     ],
                   ),
@@ -210,7 +113,7 @@ class _AdminState extends State<Admin> {
                   flex: 2,
                   child: Container(
                     color: AppColors.quartsColor,
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                    padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                     child: const Text(
                       'Genrate Licence',
                       style: TextStyle(
@@ -234,7 +137,7 @@ class _AdminState extends State<Admin> {
                         color: Colors.grey.withOpacity(0.2),
                         spreadRadius: 0,
                         blurRadius: 35,
-                        offset: Offset(0, 1), // changes position of shadow
+                        offset: const Offset(0, 1), // changes position of shadow
                       ),
                     ],
                   ),
@@ -261,56 +164,82 @@ class _AdminState extends State<Admin> {
             height: DeviceUtils.getScaledHeight(context, scale: 0.07),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                width: DeviceUtils.getScaledWidth(context, scale: 0.0),
-              ),
-              Container(
-                width: DeviceUtils.getScaledWidth(context, scale: 0.4),
-                height: 35,
-                decoration: BoxDecoration(
-                  color: AppColors.whiteColor,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
-                      spreadRadius: 0,
-                      blurRadius: 35,
-                      offset: Offset(0, 1), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: TextFormField(
-                  maxLines: 1,
-                  style: const TextStyle(
-                      fontSize: 12.0, fontFamily: 'Montserrat Regular'),
-                  decoration: InputDecorationNoPrefixValues2(
-                    hintText: "",
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: DeviceUtils.getScaledWidth(context, scale: 0.0),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please Enter Your Email';
-                    }
-                  },
-                  onChanged: (val) {
-                    setState(() {});
-                  },
-                ),
+                  Container(
+                    width: DeviceUtils.getScaledWidth(context, scale: 0.4),
+                    height: 35,
+                    decoration: BoxDecoration(
+                      color: AppColors.whiteColor,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.2),
+                          spreadRadius: 0,
+                          blurRadius: 35,
+                          offset: const Offset(0, 1), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: TextFormField(
+                      maxLines: 1,
+                      style: const TextStyle(
+                          fontSize: 12.0, fontFamily: 'Montserrat Regular'),
+                      decoration: InputDecorationNoPrefixValues2(
+                        hintText: "",
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please Enter Your Email';
+                        }
+                      },
+                      onChanged: (val) {
+                        setState(() {});
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: DeviceUtils.getScaledWidth(context, scale: 0.0),
+                  ),
+                  Container(
+                    color: AppColors.appPrimaryColor,
+                    padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 30),
+                    child: const Text(
+                      'Search',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12,
+                          fontFamily: 'Montserrat Regular',
+                          color: AppColors.whiteColor),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
-                width: DeviceUtils.getScaledWidth(context, scale: 0.0),
+                width: DeviceUtils.getScaledWidth(context, scale: 0.002),
               ),
-              Container(
-                color: AppColors.appPrimaryColor,
-                padding: EdgeInsets.symmetric(vertical: 9, horizontal: 30),
-                child: const Text(
-                  'Search',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12,
-                      fontFamily: 'Montserrat Regular',
-                      color: AppColors.whiteColor),
-                  textAlign: TextAlign.center,
+              GestureDetector(
+                onTap: () {
+                  _showCreateAdmin(getAdmins);
+                },
+                child: Container(
+                  color: AppColors.appPrimaryColor,
+                  padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 30),
+                  child: const Text(
+                    'Create Admin',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                        fontFamily: 'Montserrat Regular',
+                        color: AppColors.whiteColor),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             ],
@@ -318,11 +247,12 @@ class _AdminState extends State<Admin> {
           SizedBox(
             height: DeviceUtils.getScaledHeight(context, scale: 0.01),
           ),
-          Container(
+
+          if (fetched) SizedBox(
             height: DeviceUtils.getScaledHeight(context, scale: 0.5),
+            width: DeviceUtils.getScaledWidth(context, scale: 1),
             child: SingleChildScrollView(
               child: DataTable(
-
                   sortColumnIndex: 1,
                   sortAscending: true,
                   dataTextStyle: const TextStyle(
@@ -336,71 +266,184 @@ class _AdminState extends State<Admin> {
                       fontFamily: 'Montserrat Regular',
                       color: AppColors.appPrimaryColor),
                   dataRowColor: MaterialStateProperty.all(AppColors.whiteColor),
-                  headingRowColor: MaterialStateProperty.all(AppColors.quartsColor),
-                  columns: <DataColumn>[
+                  headingRowColor:
+                      MaterialStateProperty.all(AppColors.quartsColor),
+                  columns: const <DataColumn>[
                     DataColumn(
                       numeric: true,
-                      label: Text("s/n"),
-                      onSort: (_, __) {
-                        setState(() {
-                          tableData.sort((a, b) => a.data["s/n"]
-                              .compareTo(b.data["s/n"]));
-                        });
-                      },
-                    ),
-                    const DataColumn(
-                      label: Text("Name"),
+                      label: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "ID",
+                          textAlign: TextAlign.start,
+                        ),
+                      ),
 
                     ),
-                    const DataColumn(
-                      label: Text("Rank"),
+                    DataColumn(
+                      label: Text("Name"),
                     ),
-                    const DataColumn(
-                      label: Text("Unit"),
+                    DataColumn(
+                      label: Text("Email"),
                     ),
-                    const DataColumn(
-                      label: Text("Location"),
+                    DataColumn(
+                      label: Text("User"),
                     ),
-                    const DataColumn(
+                    DataColumn(
+                      label: Text("Username"),
+                    ),
+                    DataColumn(
                       label: Text("Action"),
                     ),
                   ],
-                  rows: tableData
-                      .map((data) => DataRow(cells: [
-                    DataCell(
-                      Text('${data["s/n"] ?? ""}'),
-                    ),
-                    DataCell(
-                      Text('${data["name"] ?? ""}'),
-                    ),
-                    DataCell(
-                      Text('${data["rank"] ?? ""}'),
-                    ),
-                    DataCell(
-                      Text('${data["unit"] ?? ""}'),
-                    ),
-                    DataCell(
-                      Text('${data["location"] ?? ""}'),
-                    ),
-                    DataCell(
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: const [
-                          Icon(Icons.edit,
-                          size: 15,
-                          color: AppColors.appPrimaryColor,),
-                          Icon(Icons.delete,
-                          size: 15,
-                          color: AppColors.color5,)
-                        ],
+                  rows:  adminList
+                      .map((data) =>
+                      DataRow(cells: [
+                        DataCell(
+                          Text('${data['_id']}'),
+                        ),
+                        DataCell(
+                          Text(
+                              '${data['first_name']} ${data['last_name']}'),
+                        ),
+                        DataCell(
+                          Text('${data['email']}'),
+                        ),
+                        DataCell(
+                          Text('${data['user_type']}'),
+                        ),
+                        DataCell(
+                          Text('${data['username']}'),
+                        ),
+                        DataCell(
+                          Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceAround,
+                            children: [
+                              GestureDetector(
+                                onTap: () => _showEditAdmin(data),
+                                child: const Icon(
+                                  Icons.edit,
+                                  size: 15,
+                                  color: AppColors.appPrimaryColor,
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () => _showDeleteAdmin(data),
+                                child: const Icon(
+                                  Icons.delete,
+                                  size: 15,
+                                  color: AppColors.color5,
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ])).toList()
                       ),
-                    )
-                  ]))
-                      .toList()),
             ),
+          )
+          else Container(
+            height: DeviceUtils.getScaledHeight(context, scale: 0.4),
+            child: const Align(
+              alignment: Alignment.center,
+                child: CircularProgressIndicator(
+              strokeWidth: 3.0,
+              backgroundColor: AppColors.appPrimaryColor,
+              color: AppColors.secondaryColor,
+            )),
           )
         ],
       ),
+    );
+  }
+
+  Future<void> _showCreateAdmin(getAdmins) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Center(
+            child: Text('Create Admin'),
+          ),
+          content: CreateAdmin( getAdmins: getAdmins),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showEditAdmin(data) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Center(
+            child: Text('Edit Admin'),
+          ),
+          content: EditAdmin(admin: data, getAdmins: getAdmins),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Approve'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showDeleteAdmin(data) async {
+    print(data);
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          actionsAlignment: MainAxisAlignment.center,
+          title: const Center(
+            child: Text(
+              'Are you sure ?',
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+          content: SizedBox(
+            width: DeviceUtils.getScaledWidth(context,scale: 0.5),
+            height: DeviceUtils.getScaledHeight(context, scale: 0.05),
+            child: const Center(child: Text('This will permanently delete this record')),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Delete'),
+              onPressed: () async {
+                if(await adminController.deleteAdmins(data['_id'])){
+                  Navigator.pop(context);
+                  setState(() {
+                    adminList = adminController.adminList;
+                  });
+                }
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

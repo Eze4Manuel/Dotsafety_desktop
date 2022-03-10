@@ -5,24 +5,25 @@ import 'package:flutter/material.dart';
 InputDecoration InputDecorationValues(
     {String hintText = "", IconData prefixIcon = Icons.file_present}) {
   return InputDecoration(
-      contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+      contentPadding: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
       prefixIcon: Icon(
         prefixIcon,
         color: AppColors.color12,
+        size: 15,
       ),
       hintText: hintText,
       border: OutlineInputBorder(
-          borderSide: const BorderSide(width: 32.0),
-          borderRadius: BorderRadius.circular(6.0)),
+          borderSide: const BorderSide(width: 1.0),
+          borderRadius: BorderRadius.circular(2.0)),
       focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.white, width: 32.0),
-          borderRadius: BorderRadius.circular(6.0)));
+          borderSide: const BorderSide(color: Colors.black12, width: 1.0),
+          borderRadius: BorderRadius.circular(2.0)));
 }
 
 InputDecoration InputDecorationNoPrefixValues(
     {String hintText = "", IconData prefixIcon = Icons.file_present}) {
   return InputDecoration(
-      contentPadding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+      contentPadding: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
       hintText: hintText,
       hintStyle: const TextStyle(
           fontWeight: FontWeight.w400,
@@ -31,11 +32,11 @@ InputDecoration InputDecorationNoPrefixValues(
           color: AppColors.color10),
       counterText: "",
       border: OutlineInputBorder(
-          borderSide: const BorderSide(width: 32.0),
-          borderRadius: BorderRadius.circular(6.0)),
+          borderSide: const BorderSide(width: 1.0),
+          borderRadius: BorderRadius.circular(2.0)),
       focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.white, width: 32.0),
-          borderRadius: BorderRadius.circular(6.0)));
+          borderSide: const BorderSide(color: Colors.white, width: 1.0),
+          borderRadius: BorderRadius.circular(2.0)));
 }
 
 

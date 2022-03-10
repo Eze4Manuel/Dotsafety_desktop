@@ -2,6 +2,7 @@ import 'package:dotsafety_desktop/app/ui/theme/app_colors.dart';
 import 'package:dotsafety_desktop/app/utils/device_utils.dart';
 import 'package:flutter/material.dart';
 
+
 enum SingingCharacter { cctv, map }
 
 class Home extends StatefulWidget {
@@ -13,6 +14,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   String isSelected = 'Home';
+  String setActiveTab = 'nearby';
+
   List<String> imageList = [
     "assets/images/img1.png",
     "assets/images/img2.png",
@@ -35,7 +38,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: DeviceUtils.getScaledHeight(context, scale: 1),
       child: SingleChildScrollView(
         child: Column(
@@ -49,64 +52,116 @@ class _HomeState extends State<Home> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                        vertical:
-                            DeviceUtils.getScaledHeight(context, scale: 0.008),
-                        horizontal:
-                            DeviceUtils.getScaledWidth(context, scale: 0.02)),
-                    decoration: const BoxDecoration(
-                        color: AppColors.appPrimaryColor,
-                        borderRadius: BorderRadius.all(Radius.circular(2))),
-                    child: const Text(
-                      'Nearby',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 13,
-                          fontFamily: 'Montserrat Regular',
-                          color: AppColors.whiteColor),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        setActiveTab = 'nearby';
+                      });
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical:
+                              DeviceUtils.getScaledHeight(context, scale: 0.008),
+                          horizontal:
+                              DeviceUtils.getScaledWidth(context, scale: 0.02)),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: AppColors.color3),
+                          borderRadius: const BorderRadius.all(Radius.circular(2)),
+                        color: setActiveTab == 'nearby'
+                            ? AppColors
+                            .appPrimaryColor
+                            : Colors
+                            .transparent
+                      ),
+                      child: Text(
+                        'Nearby',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 13,
+                            fontFamily: 'Montserrat Regular',
+                          color: setActiveTab ==
+                              'nearby'
+                              ? AppColors.whiteColor
+                              : AppColors
+                              .color10,),
+                      ),
                     ),
                   ),
                   SizedBox(
                     width: DeviceUtils.getScaledWidth(context, scale: 0.02),
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                        vertical:
-                            DeviceUtils.getScaledHeight(context, scale: 0.008),
-                        horizontal:
-                            DeviceUtils.getScaledWidth(context, scale: 0.02)),
-                    decoration: const BoxDecoration(
-                        color: AppColors.appPrimaryColor,
-                        borderRadius: BorderRadius.all(Radius.circular(2))),
-                    child: const Text(
-                      'State',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 13,
-                          fontFamily: 'Montserrat Regular',
-                          color: AppColors.whiteColor),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        setActiveTab = 'state';
+                      });
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical:
+                              DeviceUtils.getScaledHeight(context, scale: 0.008),
+                          horizontal:
+                              DeviceUtils.getScaledWidth(context, scale: 0.02)),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: AppColors.color3),
+                          borderRadius: const BorderRadius.all(Radius.circular(2)),
+                          color: setActiveTab == 'state'
+                              ? AppColors
+                              .appPrimaryColor
+                              : Colors
+                              .transparent),
+                      child: Text(
+                        'State',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 13,
+                            fontFamily: 'Montserrat Regular',
+                          color: setActiveTab ==
+                              'state'
+                              ? AppColors.whiteColor
+                              : AppColors
+                              .color10),
+                      ),
                     ),
                   ),
                   SizedBox(
                     width: DeviceUtils.getScaledWidth(context, scale: 0.02),
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                        vertical:
-                            DeviceUtils.getScaledHeight(context, scale: 0.008),
-                        horizontal:
-                            DeviceUtils.getScaledWidth(context, scale: 0.02)),
-                    decoration: const BoxDecoration(
-                        color: AppColors.appPrimaryColor,
-                        borderRadius: BorderRadius.all(Radius.circular(2))),
-                    child: const Text(
-                      'Nationwide',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 13,
-                          fontFamily: 'Montserrat Regular',
-                          color: AppColors.whiteColor),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        setActiveTab = 'nationwide';
+                      });
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          vertical:
+                              DeviceUtils.getScaledHeight(context, scale: 0.008),
+                          horizontal:
+                              DeviceUtils.getScaledWidth(context, scale: 0.02)),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: AppColors.color3),
+                          borderRadius: const BorderRadius.all(Radius.circular(2)),
+                          color: setActiveTab == 'nationwide'
+                              ? AppColors
+                              .appPrimaryColor
+                              : Colors
+                              .transparent),
+                      child: Text(
+                        'Nationwide',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 13,
+                            fontFamily: 'Montserrat Regular',
+                          color: setActiveTab ==
+                              'nationwide'
+                              ? AppColors.whiteColor
+                              : AppColors
+                              .color10,),
+                      ),
                     ),
                   )
                 ],
@@ -153,7 +208,7 @@ class _HomeState extends State<Home> {
                               ),
                               child: Container(),
                             ),
-                            Container(
+                            SizedBox(
                               width: DeviceUtils.getScaledWidth(context,
                                   scale: 0.12),
                               child: const Center(
@@ -180,7 +235,7 @@ class _HomeState extends State<Home> {
                               ),
                               child: Container(),
                             ),
-                            Container(
+                            SizedBox(
                               width: DeviceUtils.getScaledWidth(context,
                                   scale: 0.12),
                               child: const Center(
@@ -206,7 +261,7 @@ class _HomeState extends State<Home> {
                               ),
                               child: Container(),
                             ),
-                            Container(
+                            SizedBox(
                               width: DeviceUtils.getScaledWidth(context,
                                   scale: 0.12),
                               child: const Center(
@@ -241,7 +296,7 @@ class _HomeState extends State<Home> {
                               ),
                               child: Container(),
                             ),
-                            Container(
+                            SizedBox(
                               width: DeviceUtils.getScaledWidth(context,
                                   scale: 0.12),
                               child: const Center(
@@ -267,7 +322,7 @@ class _HomeState extends State<Home> {
                               ),
                               child: Container(),
                             ),
-                            Container(
+                            SizedBox(
                               width: DeviceUtils.getScaledWidth(context,
                                   scale: 0.12),
                               child: const Center(
@@ -294,7 +349,7 @@ class _HomeState extends State<Home> {
                               ),
                               child: Container(),
                             ),
-                            Container(
+                            SizedBox(
                               width: DeviceUtils.getScaledWidth(context,
                                   scale: 0.12),
                               child: const Center(
@@ -340,7 +395,6 @@ class _HomeState extends State<Home> {
                             groupValue: _character,
                             onChanged: (SingingCharacter? value) {
                               setState(() {
-                                print(value);
                                 _character = value;
                               });
                             },
@@ -371,33 +425,77 @@ class _HomeState extends State<Home> {
                                     crossAxisCount: 5),
                             itemCount: imageList.length,
                             itemBuilder: (BuildContext context, int index) {
-                              return Stack(
-                                children: [
-                                  Container(
-                                      color: AppColors.color3,
-                                      margin: const EdgeInsets.all(3),
-                                      child: Image.asset(
-                                        imageList[index],
-                                        fit: BoxFit.cover,
-                                        width: DeviceUtils.getScaledWidth(
-                                            context,
-                                            scale: 1),
-                                        height: DeviceUtils.getScaledHeight(
-                                            context,
-                                            scale: 1),
-                                      )),
-                                  const Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Align(
-                                        alignment: Alignment.topRight,
-                                        child: Icon(
-                                          Icons.image,
-                                          color: AppColors.color2,
-                                          size: 25,
-                                        )),
-                                  ),
-                                ],
-                              );
+                              return Container(
+                                  color: AppColors.color3,
+                                  margin: const EdgeInsets.all(3),
+                                  child: Image.asset(
+                                    imageList[index],
+                                    fit: BoxFit.cover,
+                                    width: DeviceUtils.getScaledWidth(context,
+                                        scale: 1),
+                                    height: DeviceUtils.getScaledHeight(
+                                        context,
+                                        scale: 1),
+                                  ));
+                              // OpenContainer(
+                              //     closedBuilder: (_, openContainer) {
+                              //       return Stack(
+                              //         children: [
+                              //           Container(
+                              //               color: AppColors.color3,
+                              //               margin: const EdgeInsets.all(3),
+                              //               child: Image.asset(
+                              //                 imageList[index],
+                              //                 fit: BoxFit.cover,
+                              //                 width: DeviceUtils.getScaledWidth(context,
+                              //                     scale: 1),
+                              //                 height: DeviceUtils.getScaledHeight(
+                              //                     context,
+                              //                     scale: 1),
+                              //               )),
+                              //           const Padding(
+                              //             padding: EdgeInsets.all(8.0),
+                              //             child: Align(
+                              //                 alignment: Alignment.topRight,
+                              //                 child: Icon(
+                              //                   Icons.image,
+                              //                   color: AppColors.color2,
+                              //                   size: 25,
+                              //                 )),
+                              //           ),
+                              //         ],
+                              //       );
+                              //     }, openBuilder: (_, closeContainer) {
+                              //   return Container();
+                              // });
+
+                              //   Stack(
+                              //   children: [
+                              //     Container(
+                              //         color: AppColors.color3,
+                              //         margin: const EdgeInsets.all(3),
+                              //         child: Image.asset(
+                              //           imageList[index],
+                              //           fit: BoxFit.cover,
+                              //           width: DeviceUtils.getScaledWidth(
+                              //               context,
+                              //               scale: 1),
+                              //           height: DeviceUtils.getScaledHeight(
+                              //               context,
+                              //               scale: 1),
+                              //         )),
+                              //     const Padding(
+                              //       padding: EdgeInsets.all(8.0),
+                              //       child: Align(
+                              //           alignment: Alignment.topRight,
+                              //           child: Icon(
+                              //             Icons.image,
+                              //             color: AppColors.color2,
+                              //             size: 25,
+                              //           )),
+                              //     ),
+                              //   ],
+                              // );
                             },
                           )
                         : Container(
